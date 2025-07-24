@@ -3,6 +3,21 @@
   command = "npm run build"
 
 [[redirects]]
+  from = "/dashboard.html"
+  to = "/dashboard"
+  status = 301
+
+[[redirects]]
+  from = "/login.html"
+  to = "/login"
+  status = 301
+
+[[redirects]]
+  from = "/logout.html"
+  to = "/logout"
+  status = 301
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
@@ -16,3 +31,4 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
+    Cache-Control = "public, max-age=0, must-revalidate"

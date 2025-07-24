@@ -70,7 +70,7 @@ export default function HomePage() {
                 Contato
               </a>
               <Button
-                onClick={() => (window.location.href = "dashboard.html")}
+                onClick={() => (window.location.href = "/login")}
                 className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white shadow-lg"
               >
                 Acesso ao Painel
@@ -107,7 +107,7 @@ export default function HomePage() {
                   Contato
                 </a>
                 <Button
-                  onClick={() => (window.location.href = "dashboard.html")}
+                  onClick={() => (window.location.href = "/login")}
                   className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
                 >
                   Acesso ao Painel
@@ -136,7 +136,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
-                onClick={() => (window.location.href = "dashboard.html")}
+                onClick={() => (window.location.href = "/login")}
                 className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-lg px-8 py-4 shadow-xl"
               >
                 Acessar Área do Cliente
@@ -207,7 +207,7 @@ export default function HomePage() {
             <Button
               size="lg"
               variant="outline"
-              onClick={() => (window.location.href = "dashboard.html")}
+              onClick={() => (window.location.href = "/login")}
               className="text-lg px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-green-600 bg-transparent"
             >
               Área do Cliente
