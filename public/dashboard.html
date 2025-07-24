@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Área do Cliente - CAMMALEON</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: white;
+      color: #2f3640;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1 {
+      color: #1c5f8a;
+      font-size: 2em;
+    }
+    h2 {
+      margin-top: 60px;
+      color: #6ab04c;
+    }
+    p {
+      font-size: 1em;
+      color: #444;
+    }
+    .botao-download {
+      display: inline-block;
+      margin-top: 20px;
+      background: #6ab04c;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+      font-size: 0.9em;
+    }
+    th {
+      background: #1c5f8a;
+      color: white;
+    }
+    .section {
+      margin-top: 60px;
+    }
+  </style>
+  <script>
+    if (localStorage.getItem("cammaleonLogado") !== "sim") {
+      alert("Acesso restrito. Faça login primeiro.");
+      window.location.href = "login.html";
+    }
+  </script>
+</head>
+<body>
+<div style="text-align: center;">
+  <img src="img/logo.png" alt="Logo CAMMALEON" style="max-width: 200px; margin-bottom: 30px;">
+</div>
+  <h1>Bem-vindo à Área do Cliente CAMMALEON</h1>
+  <p>Este espaço reúne todas as informações atualizadas da sua carteira, com ativos em USD e acesso ao PDF oficial.</p>
+
+  <a href="Proposta_CAMMALEON_350k_CORRIGIDA_NVDA.pdf" class="botao-download" target="_blank">📥 Baixar Proposta PDF</a>
+
+  <!-- TABELA DINÂMICA DE BONDS -->
+  <div class="section">
+    <h2>Bonds Atualizados</h2>
+    <table>
+      <tr>
+        <th>Emissor</th>
+        <th>Cupom</th>
+        <th>Vencimento</th>
+        <th>Preço</th>
+        <th>YTM</th>
+        <th>Rating</th>
+        <th>ISIN</th>
+      </tr>
+      <tbody id="bonds-container"></tbody>
+    </table>
+  </div>
+
+  <!-- BOTÃO DE LOGOUT -->
+  <button onclick="logout()" class="botao-download" style="background:#eb4d4b; margin-top:40px;">🚪 Sair da Área</button>
+
+  <!-- SCRIPT DE ATUALIZAÇÃO -->
+  <script>
+    function logout() {
+  localStorage.removeItem("cammaleonLogado");
+  window.location.href = "logout.html";
+}
+
+
+    function atualizarBonds() {
+      fetch('bonds-data.json')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('bonds-container');
+          if (!container) return;
+
+          container.innerHTML = '';
+          data.forEach(bond => {
+            const linha = document.createElement('tr');
+            linha.innerHTML = `
+              <td>${bond.emissor}</td>
+              <td>${bond.cupom}</td>
+              <td>${bond.vencimento}</td>
+              <td>${bond.preco}</td>
+              <td>${bond.ytm}</td>
+              <td>${bond.rating}</td>
+              <td>${bond.isin}</td>
+            `;
+            container.appendChild(linha);
+          });
+        })
+        .catch(error => {
+          console.error('Erro ao carregar bonds:', error);
+        });
+    }
+
+    setInterval(atualizarBonds, 60000); // Atualiza a cada 60 segundos
+    atualizarBonds(); // Atualiza ao carregar
+  </script>
+
+</body>
+</html>
