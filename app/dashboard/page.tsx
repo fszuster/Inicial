@@ -23,7 +23,7 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
 
-  // Dados simulados dos bonds
+  // Dados simulados dos bonds - VERSÃO ATUALIZADA 2025
   const mockBonds: Bond[] = [
     {
       emissor: "US Treasury",
@@ -128,6 +128,7 @@ export default function DashboardPage() {
         <div className="text-center">
           <RefreshCw className="h-12 w-12 animate-spin text-green-600 mx-auto mb-4" />
           <p className="text-slate-600 text-xl">Carregando sua área do cliente...</p>
+          <p className="text-slate-500 text-sm mt-2">✨ NOVA VERSÃO 2025 ✨</p>
         </div>
       </div>
     )
@@ -141,7 +142,7 @@ export default function DashboardPage() {
           <div className="flex flex-col md:flex-row justify-between items-center py-6">
             <div className="flex flex-col items-center md:items-start mb-4 md:mb-0">
               <Image src="/logo.png" alt="Logo CAMMALEON" width={350} height={140} className="h-24 w-auto mb-2" />
-              <p className="text-lg text-slate-600 font-medium">Área do Cliente</p>
+              <p className="text-lg text-slate-600 font-medium">Área do Cliente - Nova Versão 2025 🚀</p>
             </div>
 
             <div className="flex items-center space-x-4">
@@ -171,10 +172,13 @@ export default function DashboardPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">Bem-vindo à Área do Cliente</h1>
+          <h1 className="text-4xl font-bold text-slate-900 mb-4">🎉 Bem-vindo à Nova Área do Cliente</h1>
           <p className="text-xl text-slate-600">
             Acompanhe seus investimentos e acesse informações atualizadas da sua carteira
           </p>
+          <div className="mt-4 inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full">
+            <span className="text-sm font-semibold">✨ VERSÃO ATUALIZADA 2025 ✨</span>
+          </div>
         </div>
 
         {/* Stats Cards */}
@@ -216,7 +220,7 @@ export default function DashboardPage() {
         {/* Download Section */}
         <Card className="mb-8 shadow-xl border-0">
           <CardHeader>
-            <CardTitle className="text-2xl text-slate-900">Documentos</CardTitle>
+            <CardTitle className="text-2xl text-slate-900">📄 Documentos</CardTitle>
             <CardDescription className="text-lg">
               Acesse sua proposta personalizada e relatórios detalhados
             </CardDescription>
@@ -234,7 +238,7 @@ export default function DashboardPage() {
           <CardHeader>
             <div className="flex justify-between items-center">
               <div>
-                <CardTitle className="text-2xl text-slate-900">Bonds Atualizados</CardTitle>
+                <CardTitle className="text-2xl text-slate-900">📊 Bonds Atualizados</CardTitle>
                 <CardDescription className="text-lg">
                   Última atualização: {lastUpdate.toLocaleString("pt-BR")}
                 </CardDescription>
