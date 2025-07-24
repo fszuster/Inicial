@@ -11,9 +11,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true
-  },
-  assetPrefix: '',
-  basePath: ''
+  }
 }
 
 export default nextConfig

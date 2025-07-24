@@ -1,6 +1,6 @@
 [build]
   publish = "out"
-  command = "npm ci && npm run build"
+  command = "npm run build"
 
 [[redirects]]
   from = "/*"
@@ -9,7 +9,6 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--production=false"
 
 [[headers]]
   for = "/*"
