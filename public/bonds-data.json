@@ -1,0 +1,50 @@
+{
+  "bonds": [
+    {
+      "emissor": "US Treasury",
+      "cupom": "4.25%",
+      "vencimento": "2034-05-15",
+      "preco": "$98.50",
+      "ytm": "4.35%",
+      "rating": "AAA",
+      "isin": "US912810TM26"
+    },
+    {
+      "emissor": "Apple Inc",
+      "cupom": "3.85%",
+      "vencimento": "2043-08-04",
+      "preco": "$95.20",
+      "ytm": "4.12%",
+      "rating": "AA+",
+      "isin": "US037833DK75"
+    },
+    {
+      "emissor": "Microsoft Corp",
+      "cupom": "3.70%",
+      "vencimento": "2042-02-06",
+      "preco": "$94.80",
+      "ytm": "4.05%",
+      "rating": "AAA",
+      "isin": "US594918BW92"
+    },
+    {
+      "emissor": "Johnson & Johnson",
+      "cupom": "3.55%",
+      "vencimento": "2036-03-01",
+      "preco": "$96.30",
+      "ytm": "3.95%",
+      "rating": "AAA",
+      "isin": "US478160CD18"
+    },
+    {
+      "emissor": "Coca-Cola Company",
+      "cupom": "3.20%",
+      "vencimento": "2041-11-01",
+      "preco": "$92.15",
+      "ytm": "3.75%",
+      "rating": "AA+",
+      "isin": "US191216BZ26"
+    }
+  ],
+  "lastUpdate": "2025-01-24T15:30:00Z"
+}

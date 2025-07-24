@@ -5,63 +5,27 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { Download, LogOut, TrendingUp, DollarSign, Shield, RefreshCw } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import {
+  Download,
+  LogOut,
+  TrendingUp,
+  DollarSign,
+  Shield,
+  RefreshCw,
+  CheckCircle,
+  AlertTriangle,
+  FileText,
+} from "lucide-react"
 import Image from "next/image"
-
-interface Bond {
-  emissor: string
-  cupom: string
-  vencimento: string
-  preco: string
-  ytm: string
-  rating: string
-  isin: string
-}
+import { fetchBonds, type Bond } from "@/lib/data-manager"
 
 export default function DashboardPage() {
   const [bonds, setBonds] = useState<Bond[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
-
-  // Dados simulados dos bonds - VERSÃO ATUALIZADA 2025
-  const mockBonds: Bond[] = [
-    {
-      emissor: "US Treasury",
-      cupom: "4.25%",
-      vencimento: "2034-05-15",
-      preco: "$98.50",
-      ytm: "4.35%",
-      rating: "AAA",
-      isin: "US912810TM26",
-    },
-    {
-      emissor: "Apple Inc",
-      cupom: "3.85%",
-      vencimento: "2043-08-04",
-      preco: "$95.20",
-      ytm: "4.12%",
-      rating: "AA+",
-      isin: "US037833DK75",
-    },
-    {
-      emissor: "Microsoft Corp",
-      cupom: "4.10%",
-      vencimento: "2037-02-06",
-      preco: "$97.80",
-      ytm: "4.25%",
-      rating: "AAA",
-      isin: "US594918BW15",
-    },
-    {
-      emissor: "Johnson & Johnson",
-      cupom: "3.70%",
-      vencimento: "2046-03-01",
-      preco: "$92.15",
-      ytm: "4.18%",
-      rating: "AAA",
-      isin: "US478160CD18",
-    },
-  ]
+  const [dataSource, setDataSource] = useState<"json" | "sheets" | "mock">("mock")
+  const [error, setError] = useState<string>("")
 
   useEffect(() => {
     // Verificar autenticação
@@ -74,22 +38,30 @@ export default function DashboardPage() {
       }
     }
 
-    // Simular carregamento dos dados
+    // Carregar dados
     const loadBonds = async () => {
       setIsLoading(true)
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      setBonds(mockBonds)
+
+      try {
+        const result = await fetchBonds()
+        setBonds(result.bonds)
+        setDataSource(result.source)
+        setError(result.error || "")
+        console.log(`✅ ${result.bonds.length} bonds carregados da fonte: ${result.source}`)
+      } catch (error) {
+        console.error("❌ Erro ao carregar bonds:", error)
+        setError("Erro ao carregar dados")
+        setBonds([])
+      }
+
       setLastUpdate(new Date())
       setIsLoading(false)
     }
 
     loadBonds()
 
-    // Atualizar dados a cada 60 segundos
-    const interval = setInterval(() => {
-      loadBonds()
-    }, 60000)
-
+    // Atualizar dados a cada 5 minutos
+    const interval = setInterval(loadBonds, 5 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
 
@@ -100,13 +72,18 @@ export default function DashboardPage() {
     }
   }
 
-  const refreshData = () => {
+  const refreshData = async () => {
     setIsLoading(true)
-    setTimeout(() => {
-      setBonds([...mockBonds])
+    try {
+      const result = await fetchBonds()
+      setBonds(result.bonds)
+      setDataSource(result.source)
+      setError(result.error || "")
       setLastUpdate(new Date())
-      setIsLoading(false)
-    }, 1000)
+    } catch (error) {
+      console.error("Erro ao atualizar:", error)
+    }
+    setIsLoading(false)
   }
 
   const getRatingColor = (rating: string) => {
@@ -122,17 +99,42 @@ export default function DashboardPage() {
     }
   }
 
+  const getSourceInfo = () => {
+    switch (dataSource) {
+      case "json":
+        return {
+          icon: <FileText className="h-4 w-4 text-blue-600" />,
+          text: "Dados carregados do arquivo JSON local",
+          color: "border-blue-300 bg-blue-50 text-blue-800",
+        }
+      case "sheets":
+        return {
+          icon: <CheckCircle className="h-4 w-4 text-green-600" />,
+          text: "Conectado ao Google Sheets - Dados atualizados automaticamente",
+          color: "border-green-300 bg-green-50 text-green-800",
+        }
+      default:
+        return {
+          icon: <AlertTriangle className="h-4 w-4 text-yellow-600" />,
+          text: "Usando dados de exemplo - Configure uma fonte de dados real",
+          color: "border-yellow-300 bg-yellow-50 text-yellow-800",
+        }
+    }
+  }
+
   if (isLoading && bonds.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-yellow-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
           <RefreshCw className="h-12 w-12 animate-spin text-green-600 mx-auto mb-4" />
           <p className="text-slate-600 text-xl">Carregando sua área do cliente...</p>
-          <p className="text-slate-500 text-sm mt-2">Aguarde um momento...</p>
+          <p className="text-slate-500 text-sm mt-2">Buscando dados...</p>
         </div>
       </div>
     )
   }
+
+  const sourceInfo = getSourceInfo()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-yellow-50 to-purple-50">
@@ -176,6 +178,20 @@ export default function DashboardPage() {
           <p className="text-xl text-slate-600">
             Acompanhe seus investimentos e acesse informações atualizadas da sua carteira
           </p>
+        </div>
+
+        {/* Data Source Status */}
+        <div className="mb-6">
+          <Alert className={sourceInfo.color}>
+            {sourceInfo.icon}
+            <AlertDescription>✅ {sourceInfo.text}</AlertDescription>
+          </Alert>
+          {error && (
+            <Alert className="border-red-300 bg-red-50 mt-2">
+              <AlertTriangle className="h-4 w-4 text-red-600" />
+              <AlertDescription className="text-red-800">{error}</AlertDescription>
+            </Alert>
+          )}
         </div>
 
         {/* Stats Cards */}
@@ -238,6 +254,9 @@ export default function DashboardPage() {
                 <CardTitle className="text-2xl text-slate-900">📊 Bonds Atualizados</CardTitle>
                 <CardDescription className="text-lg">
                   Última atualização: {lastUpdate.toLocaleString("pt-BR")}
+                  {dataSource === "json" && " (Arquivo JSON)"}
+                  {dataSource === "sheets" && " (Google Sheets)"}
+                  {dataSource === "mock" && " (Dados de Exemplo)"}
                 </CardDescription>
               </div>
               {isLoading && <RefreshCw className="h-6 w-6 animate-spin text-green-600" />}
@@ -258,19 +277,29 @@ export default function DashboardPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {bonds.map((bond, index) => (
-                    <TableRow key={index} className="hover:bg-green-50 transition-colors">
-                      <TableCell className="font-semibold text-slate-900">{bond.emissor}</TableCell>
-                      <TableCell className="font-medium">{bond.cupom}</TableCell>
-                      <TableCell>{new Date(bond.vencimento).toLocaleDateString("pt-BR")}</TableCell>
-                      <TableCell className="font-medium">{bond.preco}</TableCell>
-                      <TableCell className="text-green-600 font-bold">{bond.ytm}</TableCell>
-                      <TableCell>
-                        <Badge className={`${getRatingColor(bond.rating)} font-semibold border`}>{bond.rating}</Badge>
+                  {bonds.length > 0 ? (
+                    bonds.map((bond, index) => (
+                      <TableRow key={index} className="hover:bg-green-50 transition-colors">
+                        <TableCell className="font-semibold text-slate-900">{bond.emissor}</TableCell>
+                        <TableCell className="font-medium">{bond.cupom}</TableCell>
+                        <TableCell>
+                          {bond.vencimento ? new Date(bond.vencimento).toLocaleDateString("pt-BR") : "-"}
+                        </TableCell>
+                        <TableCell className="font-medium">{bond.preco}</TableCell>
+                        <TableCell className="text-green-600 font-bold">{bond.ytm}</TableCell>
+                        <TableCell>
+                          <Badge className={`${getRatingColor(bond.rating)} font-semibold border`}>{bond.rating}</Badge>
+                        </TableCell>
+                        <TableCell className="font-mono text-sm">{bond.isin}</TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center py-8 text-slate-500">
+                        Nenhum bond encontrado.
                       </TableCell>
-                      <TableCell className="font-mono text-sm">{bond.isin}</TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </div>
