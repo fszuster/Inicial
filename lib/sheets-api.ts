@@ -1,5 +1,3 @@
-import { SHEETS_CONFIG, validateConfig } from "./sheets-config"
-
 export interface Bond {
   emissor: string
   cupom: string
@@ -12,7 +10,7 @@ export interface Bond {
 
 export async function fetchBondsFromSheets(): Promise<Bond[]> {
   try {
-    // URL da sua API do SheetDB
+    // URL da sua API do SheetDB (sem colchetes e sem markdown!)
     const response = await fetch("https://sheetdb.io/api/v1/8p88kwhx1uuww");
     if (!response.ok) throw new Error("Erro ao buscar dados do SheetDB");
     const data = await response.json();
@@ -66,16 +64,6 @@ export async function testSheetsConnection(): Promise<{
   details?: any
 }> {
   try {
-    // Validar configuração
-    const configValidation = validateConfig()
-    if (!configValidation.isValid) {
-      return {
-        success: false,
-        error: "Configuração inválida",
-        details: configValidation.errors,
-      }
-    }
-
     const bonds = await fetchBondsFromSheets()
     return {
       success: true,
