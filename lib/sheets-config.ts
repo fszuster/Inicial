@@ -1,11 +1,11 @@
 // Configurações do Google Sheets
 export const SHEETS_CONFIG = {
   // ✅ ID da planilha configurado
-  SHEET_ID: "1Vr0Pn31IPilAktPWBzGMCb4zzy5myiUl9f0tmhSxkDg",
+  SHEET_ID: "AIzaSyDcLjm07XlFWYsqJE4Rk6rsBbJQFfZEMxM",
 
   // ✅ COLE AQUI SUA API KEY DO GOOGLE CLOUD
   // Exemplo: AIzaSyC4K8B2Hq7X9Y1Z2A3B4C5D6E7F8G9H0I1
-  API_KEY: "COLE_SUA_API_KEY_AQUI",
+  API_KEY: AIzaSyDcLjm07XlFWYsqJE4Rk6rsBbJQFfZEMxM,
 
   // Nome da aba e range dos dados
   RANGE: "Sheet1!A2:G100", // Da linha 2 até 100, colunas A-G
