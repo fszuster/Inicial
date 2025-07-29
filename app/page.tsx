@@ -248,7 +248,7 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4 text-green-400">Contato</h4>
               <ul className="space-y-2 text-slate-400">
                 <li>contato@cammaleon.com</li>
-                <li>+55 (11) 9999-9999</li>
+                <li>+55 (11) 99823-2260</li>
                 <li>São Paulo, SP</li>
               </ul>
             </div>
