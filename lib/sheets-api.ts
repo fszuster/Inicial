@@ -10,7 +10,7 @@ export interface Bond {
 
 export async function fetchBondsFromSheets(): Promise<Bond[]> {
   try {
-    // URL da sua API do SheetDB (sem colchetes e sem markdown!)
+    // URL da sua API do SheetDB
     const response = await fetch("https://sheetdb.io/api/v1/8p88kwhx1uuww");
     if (!response.ok) throw new Error("Erro ao buscar dados do SheetDB");
     const data = await response.json();
@@ -57,7 +57,7 @@ export async function fetchBondsFromSheets(): Promise<Bond[]> {
   }
 }
 
-// Função para testar a conexão com diagnóstico detalhado
+// Função para testar a conexão com diagnóstico detalhado (opcional)
 export async function testSheetsConnection(): Promise<{
   success: boolean
   error?: string
