@@ -251,14 +251,10 @@ export default function DashboardPage() {
           <CardHeader>
             <div className="flex justify-between items-center">
               <div>
-                <CardTitle className="text-2xl text-slate-900">📊 Bonds Atualizados</CardTitle>
-                <CardDescription className="text-lg">
-                  Última atualização: {lastUpdate.toLocaleString("pt-BR")}
-                  {dataSource === "json" && " (Arquivo JSON)"}
-                  {dataSource === "sheets" && " (Google Sheets)"}
-                  {dataSource === "mock" && " (Dados de Exemplo)"}
-                </CardDescription>
-              </div>
+  <CardDescription className="text-lg">
+    Última atualização: {lastUpdate.toLocaleString("pt-BR")}
+  </CardDescription>
+</div>
               {isLoading && <RefreshCw className="h-6 w-6 animate-spin text-green-600" />}
             </div>
           </CardHeader>
