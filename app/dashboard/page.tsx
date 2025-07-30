@@ -110,7 +110,7 @@ export default function DashboardPage() {
       case "sheets":
         return {
           icon: <CheckCircle className="h-4 w-4 text-green-600" />,
-          text: "",
+          text: "Dados atualizados mensalmente",
           color: "border-green-300 bg-green-50 text-green-800",
         }
       default:
